@@ -1,0 +1,23 @@
+<html>
+<body> <table>
+    <tr>
+        <td>Id</td>
+        <td>Username</td>
+        <td>Password</td>
+    </tr>
+    {{#users}}
+
+            <tr>
+            <td>{{id}}</td>
+            <td>{{username}}</td>
+            <td>{{password}}</td>
+            </tr>
+
+    {{/users}}
+    </table>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign Out"/>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    </form>
+</body>
+</html>
