@@ -23,7 +23,6 @@ public class MainController {
         Iterable<User> users = userRepo.findAll();
 
         model.put("users", users);
-
         return "main";
     }
 
