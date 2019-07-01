@@ -31,7 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/userpage", true)
                 .and()
                     .logout()
-                    .permitAll();
+                    .permitAll()
+                .and()
+                    .exceptionHandling().accessDeniedPage("/accessdenied");
     }
 
     @Override

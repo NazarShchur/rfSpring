@@ -12,7 +12,7 @@
         .row{
             text-align: center;
         }
-        h1{
+        h1, h2{
             text-align: center;
         }
         input[type = submit]{

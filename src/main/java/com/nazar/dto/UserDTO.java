@@ -14,5 +14,4 @@ import java.util.Set;
 public class UserDTO {
     private String username;
     private String password;
-    private Set<Role> roles;
 }

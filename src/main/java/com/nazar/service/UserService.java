@@ -1,10 +1,12 @@
 package com.nazar.service;
 
+import com.nazar.entity.Role;
 import com.nazar.entity.User;
 import com.nazar.repos.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -14,8 +16,11 @@ public class UserService {
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+
+
     public String saveNewUser (User user, Map<String, Object> model){
         user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
         try {
             userRepo.save(user);
         } catch (Exception e){

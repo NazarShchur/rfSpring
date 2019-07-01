@@ -3,7 +3,6 @@ package com.nazar.controller;
 import com.nazar.dto.UserDTO;
 import com.nazar.entity.Role;
 import com.nazar.entity.User;
-import com.nazar.repos.UserRepo;
 import com.nazar.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    private UserChecker userChecker;
     @GetMapping("/registration")
     public String registration() {
         return "registration";
@@ -27,8 +27,14 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(UserDTO user, Map<String, Object> model) {
-        user.setRoles(Collections.singleton(Role.USER));
+        userChecker = new UserChecker();
         log.info("{}", user);
-        return userService.saveNewUser(new User(user.getUsername(), user.getPassword(), user.getRoles()), model);
+        String result = userChecker.checkUser(user);
+        if(result.equals("")) {
+            return userService.saveNewUser(new User(user.getUsername(), user.getPassword()), model);
+        }else {
+            model.put("message", result);
+            return "/registration";
+        }
     }
 }
