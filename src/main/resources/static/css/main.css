@@ -1,0 +1,12 @@
+h3{
+    float: right;
+}
+.inputf{
+    text-align: center;
+}
+.inputf input{
+}
+input[type = submit]{
+    width: 100px;
+    height: 50px;
+}

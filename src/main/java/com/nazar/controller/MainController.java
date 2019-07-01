@@ -10,8 +10,12 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+
+    private final UserRepo userRepo;
     @Autowired
-    private UserRepo userRepo;
+    public MainController(UserRepo userRepo){
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/")
     public String index(Map<String, Object> model) {
