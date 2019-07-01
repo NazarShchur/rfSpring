@@ -10,24 +10,10 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-
-    private final UserRepo userRepo;
-    @Autowired
-    public MainController(UserRepo userRepo){
-        this.userRepo = userRepo;
-    }
-
     @GetMapping("/")
-    public String index(Map<String, Object> model) {
+    public String index() {
         return "index";
     }
 
-    @GetMapping("/main")
-    public String main(Map<String, Object> model) {
-        Iterable<User> users = userRepo.findAll();
-
-        model.put("users", users);
-        return "main";
-    }
 
 }

@@ -17,5 +17,4 @@
 
         </#list>
     </table>
-    <@l.logout/>
 </@c.page>
