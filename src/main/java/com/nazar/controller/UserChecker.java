@@ -5,22 +5,25 @@ import com.nazar.view.Regexes;
 import com.nazar.view.TextConst;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+
 @Slf4j
 public class UserChecker {
-    public boolean checkRegex(String exp,String regexp){
+    private boolean checkRegex(String exp,String regexp){
         return exp.matches(regexp);
     }
-    public String checkUser(UserDTO user){
-        StringBuilder resultMessage = new StringBuilder();
+    public boolean checkUser(UserDTO user, Map<String, Object> model){
+        boolean check = true;
         if(!checkRegex(user.getUsername(), Regexes.NICKPAS)){
-            resultMessage.append(TextConst.WRONGLOGIN);
+            model.put("loginerr", TextConst.WRONGLOGIN);
             log.info(TextConst.WRONGLOGIN);
+            check = false;
         }
         if(!checkRegex(user.getPassword(), Regexes.NICKPAS)){
-            resultMessage.append(TextConst.WRONGPASS);
+            model.put("passerr", TextConst.WRONGPASS);
             log.info(TextConst.WRONGPASS);
+            check = false;
         }
-
-        return resultMessage.toString();
+        return check;
     }
 }
