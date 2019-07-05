@@ -18,8 +18,7 @@ import java.util.Map;
 public class RegistrationController {
     @Autowired
     private UserService userService;
-    //TODO injection
-    private UserChecker userChecker;
+
     @GetMapping("/registration")
     public String registration() {
         return "registration";
@@ -29,9 +28,8 @@ public class RegistrationController {
     public String addUsualUser(UserDTO user, Map<String, Object> model) {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userChecker = new UserChecker();
         log.info("{}", user);
-        if(userChecker.checkUser(user, model)) {
+        if(userService.checkUser(user, model)) {
             return userService.saveNewUser(User.builder()
                                                 .username(user.getUsername())
                                                 .password(user.getPassword())
