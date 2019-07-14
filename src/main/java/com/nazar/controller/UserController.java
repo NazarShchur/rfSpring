@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.Map;
 
 @Controller
@@ -15,9 +16,10 @@ public class UserController {
     private final UserRepo userRepo;
 
     @Autowired
-    public UserController(UserRepo userRepo){
+    public UserController(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/allusers")
     public String main(Map<String, Object> model) {
@@ -26,4 +28,3 @@ public class UserController {
         return "allusers";
     }
 }
-

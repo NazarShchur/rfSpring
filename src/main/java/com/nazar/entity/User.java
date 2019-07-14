@@ -12,7 +12,7 @@ import java.util.Set;
 @Builder
 @ToString
 @Entity
-@Table(name = "usr", uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
+@Table(name = "usr", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,8 +27,5 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public User(String username, String password) {
-        this.username= username;
-        this.password = password;
-    }
+
 }

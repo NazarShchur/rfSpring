@@ -29,15 +29,15 @@ public class RegistrationController {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         log.info("{}", user);
-        if(userService.checkUser(user, model)) {
+        if (userService.checkUser(user, model)) {
             return userService.saveNewUser(User.builder()
-                                                .username(user.getUsername())
-                                                .password(user.getPassword())
-                                                .active(user.isActive())
-                                                .roles(user.getRoles())
-                                                .build()
-                                            , model);
-        }else {
+                            .username(user.getUsername())
+                            .password(user.getPassword())
+                            .active(user.isActive())
+                            .roles(user.getRoles())
+                            .build()
+                    , model);
+        } else {
             return "/registration";
         }
     }
