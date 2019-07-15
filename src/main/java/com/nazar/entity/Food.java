@@ -15,7 +15,7 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
+    @Column(unique = true)
     private String foodName;
     @Column
     private double protein;

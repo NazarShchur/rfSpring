@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Collectors;
 @Slf4j
 @Service
@@ -30,5 +30,15 @@ public class FoodService {
                 .sorted(Comparator.comparing(Food::getFoodName))
                 .collect(Collectors.toList());
 
+    }
+    public void saveNewFood(Food food, Map<String, Object> model){
+        try {
+            foodRepo.save(food);
+        }catch (Exception e){
+            model.put("error", "Food is already in list");
+            log.info("Food is already in list");
+            return;
+        }
+        model.put("saved", "Food Saved");
     }
 }

@@ -27,6 +27,5 @@ public class Meal {
     double allCalories;
     @ElementCollection
     @CollectionTable(name = "FoodCount")
-//    @MapKeyColumn(name = "Count")
     private Map<Food, Integer> foodCount;
 }

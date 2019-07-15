@@ -34,6 +34,5 @@
         <h1><a href="/userpage/addmeal">Add new Meal</a></h1>
         <h1><a href="/userpage/addmeal/allmeals">See all meals</a></h1>
     </#if>
-
-
+    <h1><a href="/userpage/addfood">Add Food</a></h1>
 </@c.page>
