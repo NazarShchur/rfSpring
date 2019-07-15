@@ -26,8 +26,11 @@
                     <td>
                         Food Protein
                     </td>
+                    <td>
+                        Count
+                    </td>
                 </tr>
-                <#list meal.getFood() as food>
+                <#list meal.getFoodCount() as food, count>
                     <tr>
                         <td>
                             ${food.getFoodName()}
@@ -41,8 +44,19 @@
                         <td>
                             ${food.getCarbohydrate()}
                         </td>
+                        <td>
+                            ${count}
+                        </td>
                     </tr>
                 </#list>
+                <tr>
+                    <td>
+                        Total Calories
+                    </td>
+                    <td>
+                        ${meal.getAllCalories()}
+                    </td>
+                </tr>
             </table>
         </#list>
     <#else>

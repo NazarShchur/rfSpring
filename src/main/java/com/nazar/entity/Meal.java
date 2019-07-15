@@ -3,8 +3,10 @@ package com.nazar.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -13,7 +15,7 @@ import java.util.List;
 @Builder
 @ToString
 @Entity
-public class Meal{
+public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,8 +23,10 @@ public class Meal{
     private Long userId;
     @Column
     private String description;
-    @Column double allCalories;
-    @ManyToMany
-    @JoinTable(name = "MealsFoods")
-    private List<Food> food;
+    @Column
+    double allCalories;
+    @ElementCollection
+    @CollectionTable(name = "FoodCount")
+//    @MapKeyColumn(name = "Count")
+    private Map<Food, Integer> foodCount;
 }

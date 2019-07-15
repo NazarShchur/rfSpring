@@ -9,14 +9,13 @@ import com.nazar.view.Regexes;
 import com.nazar.view.TextConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
+
 import java.util.Map;
-import java.util.Set;
+
 
 
 @Slf4j
@@ -32,6 +31,7 @@ public class UserService {
     }
 
     public String saveNewUser(User user, Map<String, Object> model) {
+        countDailyCalories(user);
         try {
             userRepo.save(user);
         } catch (Exception e) {
@@ -67,6 +67,15 @@ public class UserService {
     public User getCurrentUser() {
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepo.findByUsername(userDetails.getUsername());
+    }
+    public void countDailyCalories(User user){
+        user.setDailyCalories(
+                (user.getSex().getBaseCalories()
+                + user.getSex().getWeightC()*user.getWeight()
+                + user.getSex().getHeightC()*user.getHeight()
+                + user.getSex().getAgeC()*user.getAge())
+                * user.getLifeStyle().getAmr()
+        );
     }
 
 

@@ -1,16 +1,16 @@
 package com.nazar.service;
 
-import com.nazar.dto.FoodDTO;
-import com.nazar.dto.MealDTO;
+import com.nazar.dto.CountFoodDTO;
 import com.nazar.entity.Food;
 import com.nazar.entity.Meal;
-import com.nazar.entity.User;
 import com.nazar.repos.MealRepo;
-import com.nazar.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 
 @Service
@@ -25,18 +25,17 @@ public class MealService {
         this.mealRepo = mealRepo;
     }
     public void countMealCalories(Meal meal){
-        meal.setAllCalories(meal.getFood().stream()
-                .mapToDouble(a->foodService.getCalories(a))
+        meal.setAllCalories(meal.getFoodCount().keySet().stream()
+                .mapToDouble(a->foodService.getCalories(a)*meal.getFoodCount().get(a))
                 .sum());
-        System.out.println(meal.getAllCalories());
-
     }
-    public void addFoodToMeal(Meal meal, Food food){
-        meal.getFood().add(food);
+    public void addFoodToMeal(Meal meal, CountFoodDTO countFoodDTO){
+           meal.getFoodCount().put(countFoodDTO.getFood(), countFoodDTO.getCount());
     }
     public void SaveMeal(Meal meal){
         countMealCalories(meal);
         meal.setUserId(userService.getCurrentUser().getId());
         mealRepo.save(meal);
     }
+
 }

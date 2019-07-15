@@ -21,6 +21,20 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column
+    private double weight;
+    @Column
+    private double height;
+    @Column
+    private double age;
+    @Column
+    private double dailyCalories;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private LifeStyle lifeStyle;
     private boolean active;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Builder
 @ToString
 @Entity
+@EqualsAndHashCode
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

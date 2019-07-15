@@ -35,6 +35,11 @@ public class RegistrationController {
                             .password(user.getPassword())
                             .active(user.isActive())
                             .roles(user.getRoles())
+                            .age(user.getAge())
+                            .height(user.getHeight())
+                            .weight(user.getWeight())
+                            .lifeStyle(user.getLifeStyle())
+                            .sex(user.getSex())
                             .build()
                     , model);
         } else {
