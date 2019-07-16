@@ -13,9 +13,9 @@
             <form action="/userpage/addfood" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <label>FoodName<input type="text" name="foodName" required></label>
-                <label>Fats<input type="number" name="fats" step="any" required></label>
-                <label>Proteins<input type="number" name="protein" step="any" required></label>
-                <label>Carbohydrates<input type="number" name="carbohydrate" step="any" required></label>
+                <label>Fats<input type="number" min="0" name="fats" step="any" required></label>
+                <label>Proteins<input type="number" min="0" name="protein" step="any" required></label>
+                <label>Carbohydrates<input type="number" min="0" name="carbohydrate" step="any" required></label>
                 <input type="submit" value="add">
             </form>
     </#if>

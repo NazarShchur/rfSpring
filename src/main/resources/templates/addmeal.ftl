@@ -19,20 +19,24 @@
         </form>
     </#if>
         <#if meal?has_content>
-            <form action="/userpage/addmeal/saveMeal" method="post">
-                <#list meal.getFoodCount() as food, count>
-                    <P>${food.getFoodName()} - ${count}</P>
-                </#list>
-                <label><input type="text" name="description" required>Description</label>
+            <form action="/userpage/addmeal/delete" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <label><input type="submit" value="submit"></label>
+            <#list meal.getFoodCount() as food, count>
+                <p><label>${food.getFoodName()} - ${count}<button type="submit" name="foodName" value="${food.getFoodName()}">delete</button></label></p>
+            </#list>
             </form>
-        </#if>
+            <#if meal.getFoodCount()?has_content>
+                <form action="/userpage/addmeal/saveMeal" method="post">
+                    <label><input type="text" name="description" required>Description</label>
+                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                    <label><input type="submit" value="submit"></label>
+                </form>
+            </#if>
 
+        </#if>
     <#if mealadded?has_content>
         <h1>${mealadded}</h1>
         <h1><a href="/userpage/addmeal">Add new Meal</a></h1>
         <h1><a href="/userpage/addmeal/allmeals">See all meals</a></h1>
     </#if>
-    <h1><a href="/userpage/addfood">Add Food</a></h1>
 </@c.page>

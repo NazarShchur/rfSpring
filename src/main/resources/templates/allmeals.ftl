@@ -10,7 +10,7 @@
                         Description
                     </td>
                     <td>
-                        ${meal.getDescription()}
+                        ${meal.getDescription()} ${meal.getAddTime()}
                     </td>
                 </tr>
                 <tr>
@@ -58,6 +58,7 @@
                     </td>
                 </tr>
             </table>
+            <br>
         </#list>
     <#else>
         <h1>You don`t have any meals yet</h1>

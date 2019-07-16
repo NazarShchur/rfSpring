@@ -70,6 +70,8 @@
             </div>
         </div>
     </header>
+    <div class="container">
     <#nested>
+    </div>
     </html>
 </#macro>

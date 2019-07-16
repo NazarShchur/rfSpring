@@ -3,6 +3,7 @@ package com.nazar.service;
 import com.nazar.dto.MealDTO;
 import com.nazar.dto.UserDTO;
 import com.nazar.entity.Meal;
+import com.nazar.entity.Role;
 import com.nazar.entity.User;
 import com.nazar.repos.UserRepo;
 import com.nazar.view.Regexes;
@@ -14,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.Map;
-
 
 
 @Slf4j
@@ -29,6 +30,9 @@ public class UserService {
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+
+    @Autowired
+    private MealService mealService;
 
     public String saveNewUser(User user, Map<String, Object> model) {
         countDailyCalories(user);
@@ -65,17 +69,29 @@ public class UserService {
     }
 
     public User getCurrentUser() {
-        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepo.findByUsername(userDetails.getUsername());
     }
-    public void countDailyCalories(User user){
+
+    public void countDailyCalories(User user) {
         user.setDailyCalories(
                 (user.getSex().getBaseCalories()
-                + user.getSex().getWeightC()*user.getWeight()
-                + user.getSex().getHeightC()*user.getHeight()
-                + user.getSex().getAgeC()*user.getAge())
-                * user.getLifeStyle().getAmr()
+                        + user.getSex().getWeightC() * user.getWeight()
+                        + user.getSex().getHeightC() * user.getHeight()
+                        + user.getSex().getAgeC() * user.getAge())
+                        * user.getLifeStyle().getAmr()
         );
+    }
+
+    public double getTodayCaloriesLimitForCurrentUser() {
+        return getCurrentUser().getDailyCalories()
+                - mealService.countMealListCalories(mealService.findMealByDateAndUserId(LocalDate.now(), getCurrentUser().getId()));
+    }
+    public boolean isLimitExceeded(){
+        return getTodayCaloriesLimitForCurrentUser() < 0;
+    }
+    public boolean isUserAdmin(){
+        return getCurrentUser().getRoles().contains(Role.ADMIN);
     }
 
 

@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Getter
@@ -28,4 +27,6 @@ public class Meal {
     @ElementCollection
     @CollectionTable(name = "FoodCount")
     private Map<Food, Integer> foodCount;
+    @Column
+    private LocalDate addTime;
 }
