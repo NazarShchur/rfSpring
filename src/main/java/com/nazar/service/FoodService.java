@@ -29,7 +29,7 @@ public class FoodService {
             log.info("Food is already in list");
             return;
         }
-        model.put("saved", "Food Saved");
+        model.put("saved", "Your food will be checked and added soon");
     }
     public Food findFoodByName(String name){
         return foodRepo.findByFoodName(name);

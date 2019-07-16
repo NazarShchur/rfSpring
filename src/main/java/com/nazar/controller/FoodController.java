@@ -29,6 +29,7 @@ public class FoodController {
                 .carbohydrate(food.getCarbohydrate())
                 .protein(food.getProtein())
                 .foodName(food.getFoodName())
+                .confirmed(false)
                 .build()
                 , model);
         return "addfood";

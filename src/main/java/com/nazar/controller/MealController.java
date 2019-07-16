@@ -30,7 +30,7 @@ public class MealController {
     public String showMeal(Map<String, Object> model) {
         meal = new Meal();
         meal.setFoodCount(new HashMap<>());
-        model.put("foods", mealService.getAvalaibleFoods(meal));
+        model.put("foods", mealService.getAvailableFoods(meal));
         return "addmeal";
     }
 
@@ -38,7 +38,7 @@ public class MealController {
     public String addFood(FoodDTO foodDTO, Map<String, Object> model) {
         if (foodDTO.getFoodName() == null) {
             model.put("meal", meal);
-            model.put("foods", mealService.getAvalaibleFoods(meal));
+            model.put("foods", mealService.getAvailableFoods(meal));
             model.put("error", "Choose Food!");
             return "addmeal";
         }
@@ -47,7 +47,7 @@ public class MealController {
                 .food(food)
                 .count(foodDTO.getCount())
                 .build());
-        model.put("foods", mealService.getAvalaibleFoods(meal));
+        model.put("foods", mealService.getAvailableFoods(meal));
         model.put("meal", meal);
         return "addmeal";
     }
@@ -70,7 +70,7 @@ public class MealController {
     @PostMapping("/delete")
     public String deleteFoodFromMeal(Map<String, Object> model, String foodName){
         mealService.deleteFoodFromMeal(meal, foodService.findFoodByName(foodName));
-        model.put("foods", mealService.getAvalaibleFoods(meal));
+        model.put("foods", mealService.getAvailableFoods(meal));
         model.put("meal", meal);
         return "addmeal";
     }

@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "usr", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User {

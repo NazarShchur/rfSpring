@@ -23,4 +23,6 @@ public class Food {
     private double fats;
     @Column
     private double carbohydrate;
+    @Column
+    private boolean confirmed;
 }

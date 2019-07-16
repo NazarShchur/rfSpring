@@ -45,8 +45,9 @@ public class MealService {
     public Iterable<Meal> getCurrentUserMeals() {
         return mealRepo.findByUserId(userService.getCurrentUser().getId());
     }
-    public List<Food> getAvalaibleFoods(Meal meal) {
+    public List<Food> getAvailableFoods(Meal meal) {
         return foodService.getAllFoodList().stream()
+                .filter(Food::isConfirmed)
                 .filter(a -> !meal.getFoodCount().keySet().contains(a))
                 .sorted(Comparator.comparing(Food::getFoodName))
                 .collect(Collectors.toList());
