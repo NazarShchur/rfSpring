@@ -1,34 +1,27 @@
 package com.nazar.service;
 
-import com.nazar.entity.Food;
-import com.nazar.entity.User;
-import com.nazar.repos.FoodRepo;
-import com.nazar.repos.UserRepo;
+import com.nazar.entity.PrivateFood;
+import com.nazar.repos.PrivateFoodRepository;
+import com.nazar.repos.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class AdminService {
-    private final UserRepo userRepo;
-    private final FoodRepo foodRepo;
+    private final PrivateFoodRepository foodRepository;
     @Autowired
-    public AdminService(UserRepo userRepo, FoodRepo foodRepo){
-        this.userRepo = userRepo;
-        this.foodRepo = foodRepo;
+    public AdminService( PrivateFoodRepository foodRepository){
+        this.foodRepository = foodRepository;
     }
 
-    public List<User> getAllUsers(){
-        return userRepo.findAll();
+    public List<PrivateFood> findUsersFood(){
+        return foodRepository.findByUserIsNotNull();
     }
-    public List<Food> getNotConfirmedFoodList(){
-        return foodRepo.findByConfirmedFalse();
-    }
-    public void updateConfirmedFoodByID(Long id, Boolean status){
-        foodRepo.foodUpdateConfirmed(status, id);
-    }
-    public void deleteFoodById(Long id){
-        foodRepo.deleteById(id);
+
+    public void updateFoodToPublic(Long id){
+        foodRepository.updateFoodMakePublic(id);
     }
 }

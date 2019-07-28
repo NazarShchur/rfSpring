@@ -1,6 +1,6 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
-<@c.page>
+<@w.wrapp>
     <#if saved?has_content>
         <h1>${saved}</h1>
         <h1><a href="/userpage/addfood">Add more food</a> </h1>
@@ -20,4 +20,4 @@
             </form>
     </#if>
 
-</@c.page>
+</@w.wrapp>

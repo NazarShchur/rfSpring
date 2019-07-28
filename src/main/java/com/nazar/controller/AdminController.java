@@ -3,7 +3,6 @@ package com.nazar.controller;
 import com.nazar.dto.FoodConfirmDTO;
 import com.nazar.entity.User;
 import com.nazar.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,32 +15,22 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
     @GetMapping
-    public String panel(){
+    public String panel(Map<String, Object> model){
+        model.put("usersFood", adminService.findUsersFood());
         return "admin";
     }
-    @GetMapping("/allusers")
-    public String main(Map<String, Object> model) {
-        Iterable<User> users = adminService.getAllUsers();
-        model.put("users", users);
-        return "allusers";
-    }
-    @GetMapping("/foods")
-    public String foods(Map<String, Object> model){
-        model.put("foods", adminService.getNotConfirmedFoodList());
-        return "foods";
-    }
-    @PostMapping("/foods/confirm")
-    public String confirm(Map<String, Object> model, FoodConfirmDTO food){
-        if(food.isConfirm()) {
-            adminService.updateConfirmedFoodByID(food.getId(), food.isConfirm());
-        } else {
-            adminService.deleteFoodById(food.getId());
-        }
-        model.put("foods", adminService.getNotConfirmedFoodList());
-        return "foods";
+
+
+    @PostMapping("/publicFood")
+    public String confirm(Long foodID){
+        adminService.updateFoodToPublic(foodID);
+        return "redirect:/admin";
     }
 
 }

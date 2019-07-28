@@ -1,5 +1,5 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
-<@c.page>
-<h1><@spring.message "no.permissions"/></h1>
-</@c.page>
+<@w.wrapp>
+<h1>NO</h1>
+</@w.wrapp>

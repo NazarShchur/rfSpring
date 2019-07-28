@@ -1,6 +1,4 @@
 package com.nazar.entity;
-
-import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 public enum Role implements GrantedAuthority {
     USER, ADMIN;

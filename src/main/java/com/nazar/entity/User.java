@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Table(name = "usr", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,8 +28,8 @@ public class User {
     private double height;
     @Column
     private double age;
-    @Column
-    private double dailyCalories;
+    @Transient
+    private int dailyCalories;
     @Column
     @Enumerated(EnumType.STRING)
     private Sex sex;

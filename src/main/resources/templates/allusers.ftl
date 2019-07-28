@@ -1,6 +1,6 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "parts/login.ftl" as l>
-<@c.page>
+<@w.wrapp>
     <table>
         <tr>
             <td>Id</td>
@@ -28,4 +28,4 @@
 
         </#list>
     </table>
-</@c.page>
+</@w.wrapp>

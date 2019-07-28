@@ -3,6 +3,7 @@ package com.nazar.entity;
 import lombok.*;
 
 import javax.persistence.*;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,15 +15,14 @@ import javax.persistence.*;
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
     @Column(unique = true)
-    private String foodName;
+    protected String foodName;
     @Column
-    private double protein;
+    protected double protein;
     @Column
-    private double fats;
+    protected double fats;
     @Column
-    private double carbohydrate;
-    @Column
-    private boolean confirmed;
+    protected double carbohydrate;
+
 }

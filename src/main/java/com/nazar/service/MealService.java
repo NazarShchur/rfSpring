@@ -1,69 +1,75 @@
 package com.nazar.service;
 
 import com.nazar.dto.CountFoodDTO;
+import com.nazar.dto.FoodCartDTO;
 import com.nazar.entity.Food;
 import com.nazar.entity.Meal;
-import com.nazar.repos.MealRepo;
+import com.nazar.repos.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class MealService {
-    private final MealRepo mealRepo;
+    private final MealRepository mealRepository;
     @Autowired
     private UserService userService;
     @Autowired
     private FoodService foodService;
 
     @Autowired
-    public MealService(MealRepo mealRepo) {
-        this.mealRepo = mealRepo;
+    public MealService(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
     }
 
     public void countMealCalories(Meal meal) {
-        meal.setAllCalories(meal.getFoodCount().keySet().stream()
+        meal.setAllCalories((int)(meal.getFoodCount().keySet().stream()
                 .mapToDouble(a -> foodService.getCalories(a) * meal.getFoodCount().get(a))
-                .sum());
+                .sum()));
     }
-
-    public void addFoodToMeal(Meal meal, CountFoodDTO countFoodDTO) {
-        meal.getFoodCount().put(countFoodDTO.getFood(), countFoodDTO.getCount());
-    }
-
-    public void saveMeal(Meal meal) {
-        meal.setAddTime(LocalDate.now());
-        countMealCalories(meal);
-        meal.setUserId(userService.getCurrentUser().getId());
-        mealRepo.save(meal);
-    }
-
-    public Iterable<Meal> getCurrentUserMeals() {
-        return mealRepo.findByUserId(userService.getCurrentUser().getId());
-    }
-    public List<Food> getAvailableFoods(Meal meal) {
-        return foodService.getAllFoodList().stream()
-                .filter(Food::isConfirmed)
-                .filter(a -> !meal.getFoodCount().keySet().contains(a))
-                .sorted(Comparator.comparing(Food::getFoodName))
-                .collect(Collectors.toList());
-    }
-    public void deleteFoodFromMeal(Meal meal, Food food) {
-        meal.getFoodCount().remove(food);
-    }
-    public List<Meal> findMealByDateAndUserId(LocalDate date, Long id){
-        return mealRepo.findByAddTimeAndUserId(date, id);
-    }
-
-    public double countMealListCalories(List<Meal> meals){
-        return meals.stream()
-                .mapToDouble(Meal::getAllCalories)
+    public int getMealCalories(Meal meal){
+        return (int)meal.getFoodCount().keySet().stream()
+                .mapToDouble(a->foodService.getCalories(a) * meal.getFoodCount().get(a))
                 .sum();
     }
 
+    public void addFoodToCart(FoodCartDTO cart, CountFoodDTO countFoodDTO) {
+        cart.getMap().put(countFoodDTO.getFood(), countFoodDTO.getCount());
+    }
+
+    public void saveMeal(Meal meal) {
+        meal.setUser(userService.getCurrentUser());
+        mealRepository.save(meal);
+    }
+
+    public Page<Meal> getCurrentUserMeals(Pageable pageable) {
+        return mealRepository.findByUserId(userService.getCurrentUser().getId(), pageable);
+    }
+    public List<Meal> getCurrentUserMeals() {
+        return mealRepository.findByUserId(userService.getCurrentUser().getId());
+    }
+    public FoodCartDTO getFoodCart(HttpServletRequest request){
+        return (FoodCartDTO)Optional.ofNullable(request.getSession().getAttribute("currentMap"))
+                .orElse(new FoodCartDTO());
+    }
+    public void deleteFoodFromCart(FoodCartDTO foods, Food food) {
+       foods.getMap().remove(food);
+    }
+    public void updateCart(HttpServletRequest request, FoodCartDTO foods){
+        request.getSession().setAttribute("currentMap", foods);
+    }
+
+    public void countMealListCalories(Page<Meal> meals){
+        for (Meal meal : meals.getContent()){
+            countMealCalories(meal);
+        }
+    }
 
 }

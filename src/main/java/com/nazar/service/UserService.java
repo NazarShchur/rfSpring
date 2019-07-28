@@ -1,11 +1,11 @@
 package com.nazar.service;
 
-import com.nazar.dto.MealDTO;
+import com.nazar.dto.FoodCartDTO;
 import com.nazar.dto.UserDTO;
-import com.nazar.entity.Meal;
+import com.nazar.entity.Food;
 import com.nazar.entity.Role;
 import com.nazar.entity.User;
-import com.nazar.repos.UserRepo;
+import com.nazar.repos.UserRepository;
 import com.nazar.view.Regexes;
 import com.nazar.view.TextConst;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +16,23 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class UserService {
 
-    private UserRepo userRepo;
-
+    private UserRepository userRepository;
     @Autowired
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    private FoodService foodService;
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
@@ -36,7 +41,7 @@ public class UserService {
     public String saveNewUser(User user, Map<String, Object> model) {
         countDailyCalories(user);
         try {
-            userRepo.save(user);
+            userRepository.save(user);
         } catch (Exception e) {
             log.info("Not Unique Login - " + user.getUsername());
             model.put("nulogin", TextConst.ISOCCUPIED);
@@ -69,29 +74,39 @@ public class UserService {
 
     public User getCurrentUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepo.findByUsername(userDetails.getUsername());
+        return userRepository.findByUsername(userDetails.getUsername());
     }
 
     public void countDailyCalories(User user) {
-        user.setDailyCalories(
+        user.setDailyCalories((int)(
                 (user.getSex().getBaseCalories()
                         + user.getSex().getWeightC() * user.getWeight()
                         + user.getSex().getHeightC() * user.getHeight()
                         + user.getSex().getAgeC() * user.getAge())
                         * user.getLifeStyle().getAmr()
-        );
+        ));
     }
 
-    public double getTodayCaloriesLimitForCurrentUser() {
-        return getCurrentUser().getDailyCalories()
-                - mealService.countMealListCalories(mealService.findMealByDateAndUserId(LocalDate.now(), getCurrentUser().getId()));
+    public int getTodayCaloriesConsumedCurrentUser() {
+        return mealService.getCurrentUserMeals().stream()
+                .filter(m->m.getAddTime().isEqual(LocalDate.now()))
+                .mapToInt(m->mealService.getMealCalories(m))
+                .sum();
     }
     public boolean isLimitExceeded(){
-        return getTodayCaloriesLimitForCurrentUser() < 0;
+        return getTodayCaloriesConsumedCurrentUser() > getCurrentUser().getDailyCalories();
     }
     public boolean isUserAdmin(){
         return getCurrentUser().getRoles().contains(Role.ADMIN);
     }
-
+    public List<Food> getAvailableFoods(FoodCartDTO dto) {
+        List<Food> foodList = new ArrayList<>();
+        foodList.addAll(foodService.getAllByUserId(getCurrentUser().getId()));
+        foodList.addAll(foodService.getAllPublicFoodList());
+        return  foodList.stream()
+                .filter(a -> !dto.getMap().keySet().contains(a))
+                .sorted(Comparator.comparing(Food::getFoodName))
+                .collect(Collectors.toList());
+    }
 
 }

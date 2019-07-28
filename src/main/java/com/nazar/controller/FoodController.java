@@ -1,8 +1,9 @@
 package com.nazar.controller;
 
 import com.nazar.dto.FoodAddDTO;
-import com.nazar.entity.Food;
+import com.nazar.entity.PrivateFood;
 import com.nazar.service.FoodService;
+import com.nazar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,20 +17,20 @@ import java.util.Map;
 public class FoodController {
     @Autowired
     private FoodService foodService;
-
+    @Autowired
+    private UserService userService;
     @GetMapping
     public String page() {
         return "addfood";
     }
-
     @PostMapping
     public String addFood(FoodAddDTO food, Map<String, Object> model) {
-        foodService.saveNewFood(Food.builder()
+        foodService.saveNewFood(PrivateFood.privateBuilder()
                 .fats(food.getFats())
                 .carbohydrate(food.getCarbohydrate())
                 .protein(food.getProtein())
                 .foodName(food.getFoodName())
-                .confirmed(false)
+                .user(userService.getCurrentUser())
                 .build()
                 , model);
         return "addfood";

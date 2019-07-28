@@ -1,6 +1,6 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
-<@c.page>
+<@w.wrapp>
     <h1>Unconfirmed Foods</h1>
     <table>
         <tr>
@@ -24,4 +24,4 @@
             </tr>
         </#list>
     </table>
-</@c.page>
+</@w.wrapp>

@@ -1,13 +1,15 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
-<@c.page>
-    <#if meals?has_content>
-
-        <#list meals as meal>
-            <table>
+<#import "parts/page.ftl" as p/>
+<@w.wrapp>
+    <#if page?has_content>
+<@p.pager url, page/>
+        <#list page.content as meal>
+            <div class="col-lg-12 align-content-center">
+            <table class="table-bordered mealtable">
                 <tr>
                     <td>
-                        Description
+                        <@spring.message "meal.description"/>
                     </td>
                     <td>
                         ${meal.getDescription()} ${meal.getAddTime()}
@@ -59,9 +61,11 @@
                 </tr>
             </table>
             <br>
+            </div>
         </#list>
+<@p.pager url, page/>
     <#else>
         <h1>You don`t have any meals yet</h1>
     </#if>
 
-</@c.page>
+</@w.wrapp>

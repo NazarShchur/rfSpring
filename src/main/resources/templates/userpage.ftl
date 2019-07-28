@@ -1,22 +1,59 @@
-<#import "parts/header.ftl" as c>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
-<@c.page>
-    <h1><@spring.message "hello"/>, ${user.getUsername()} </h1>
-    <h1>Age: ${user.getAge()}</h1>
-    <h1>Sex: ${user.getSex()}</h1>
-    <h1>Weight: ${user.getWeight()}</h1>
-    <h1>Height: ${user.getHeight()}</h1>
-    <h1>Lifestyle: ${user.getLifeStyle()}</h1>
-    <h1>Daily Calories: ${user.getDailyCalories()}</h1>
-    <#if isLimitExceeded>
-        <h1>You ate ${-limit} calories over your limit</h1>
-        <#else>
-        <h1>You can eat ${limit} calories today</h1>
-    </#if>
-    <#if isAdmin>
-        <h1><a href="/admin">Admin panel</a></h1>
-    </#if>
-    <h1><a href = "/userpage/addmeal">Create Meal</a></h1>
-    <h1><a href = "/userpage/addmeal/allmeals">See all meals</a></h1>
-    <h1><a href="/userpage/addfood">Add Food</a></h1>
-</@c.page>
+<@w.wrapp>
+    <div class="col-lg-12">
+        <h1 class="uname"> ${user.getUsername()}</h1>
+        <#if isAdmin>
+            <h1>
+                <a href="/admin">
+                    <@spring.message "admin.page"/>
+                </a>
+            </h1>
+        </#if>
+    </div>
+    <div class="col-lg-5 uphoto">
+
+    </div>
+    <div class="col-lg-7 ustats">
+        <ul>
+            <li>
+                <@spring.message "personal.data"/>
+            </li>
+            <li>
+                <@spring.message "age"/> : ${user.getAge()}
+            </li>
+            <li>
+                <@spring.message "gender"/> : ${user.getAge()}
+            </li>
+            <li>
+                <@spring.message "weight"/> : ${user.getAge()}
+            </li>
+            <li>
+                <@spring.message "height"/> : ${user.getAge()}
+            </li>
+            <li>
+                <@spring.message "lifestyle"/> : <@spring.message "${user.getLifeStyle()}"/>
+            </li>
+            <li>
+                <@spring.message "daily.calories"/> : ${user.getDailyCalories()}
+            </li>
+            <li>
+                <@spring.message "today.consumed"/> :${todayConsumed}
+                <#if isLimitExceeded>
+                 !
+                </#if>
+            </li>
+        </ul>
+    </div>
+    <div class="profile_act col-lg-12 row">
+        <a href="/userpage/addmeal" class="col-lg-4 profile_btn">
+            <@spring.message "add.meal"/>
+        </a>
+        <a href="/userpage/addfood" class="col-lg-4 profile_btn">
+            <@spring.message "add.food"/>
+        </a>
+        <a href="/userpage/allmeals?page=0&size=3" class="col-lg-4 profile_btn">
+            <@spring.message "all.meal"/>
+        </a>
+    </div>
+</@w.wrapp>

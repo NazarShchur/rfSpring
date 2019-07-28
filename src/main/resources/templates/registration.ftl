@@ -1,7 +1,7 @@
-<#import "parts/login.ftl" as l>
+<#import "parts/wrapp.ftl" as w>
 <#import "/spring.ftl" as spring/>
 <#import "parts/unsheader.ftl" as c>
-<@c.page>
+<@w.wrapp>
     <h1><@spring.message "registration"/></h1>
     <form action="/registration" method="post">
         <div class="container">
@@ -47,7 +47,7 @@
 
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                <input type="submit" class="col-lg-6 offset-3" value="<@spring.message "submit"/>"/></div>
+                <input type="submit" class="col-lg-6 offset-3" value="<@spring.message "register"/>"/></div>
         </div>
     </form>
-</@c.page>
+</@w.wrapp>
