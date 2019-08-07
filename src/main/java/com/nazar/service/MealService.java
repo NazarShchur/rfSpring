@@ -63,6 +63,7 @@ public class MealService {
        foods.getMap().remove(food);
     }
     public void updateCart(HttpServletRequest request, FoodCartDTO foods){
+        countMealCalories(foods);
         request.getSession().setAttribute("currentMap", foods);
     }
 
@@ -70,6 +71,11 @@ public class MealService {
         for (Meal meal : meals.getContent()){
             countMealCalories(meal);
         }
+    }
+    public void countMealCalories(FoodCartDTO meal) {
+        meal.setCalories((int)(meal.getMap().keySet().stream()
+                .mapToDouble(a -> foodService.getCalories(a) * meal.getMap().get(a))
+                .sum()));
     }
 
 }

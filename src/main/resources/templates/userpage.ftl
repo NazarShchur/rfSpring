@@ -2,7 +2,7 @@
 <#import "/spring.ftl" as spring/>
 <@w.wrapp>
     <div class="col-lg-12">
-        <h1 class="uname"> ${user.getUsername()}</h1>
+        <h1 class="uname text-left"> ${user.getUsername()}</h1>
         <#if isAdmin>
             <h1>
                 <a href="/admin">
@@ -14,10 +14,10 @@
     <div class="col-lg-5 uphoto">
 
     </div>
-    <div class="col-lg-7 ustats">
+    <div class="col-lg-7 ustats text-left">
         <ul>
             <li>
-                <@spring.message "personal.data"/>
+                <h2><@spring.message "personal.data"/></h2>
             </li>
             <li>
                 <@spring.message "age"/> : ${user.getAge()}
@@ -40,19 +40,19 @@
             <li>
                 <@spring.message "today.consumed"/> :${todayConsumed}
                 <#if isLimitExceeded>
-                 !
+                    <span title="<@spring.message "calories.limit.exceeded"/>" class="wow">!</span>
                 </#if>
             </li>
         </ul>
     </div>
     <div class="profile_act col-lg-12 row">
-        <a href="/userpage/addmeal" class="col-lg-4 profile_btn">
+        <a href="/userpage/addmeal" class="col-lg-4 addmeal profile_btn">
             <@spring.message "add.meal"/>
         </a>
-        <a href="/userpage/addfood" class="col-lg-4 profile_btn">
+        <a href="/userpage/addfood" class="col-lg-4 addfood profile_btn">
             <@spring.message "add.food"/>
         </a>
-        <a href="/userpage/allmeals?page=0&size=3" class="col-lg-4 profile_btn">
+        <a href="/userpage/allmeals?page=0&size=3" class="col-lg-4 allmeals profile_btn">
             <@spring.message "all.meal"/>
         </a>
     </div>

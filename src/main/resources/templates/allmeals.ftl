@@ -2,7 +2,8 @@
 <#import "/spring.ftl" as spring/>
 <#import "parts/page.ftl" as p/>
 <@w.wrapp>
-    <#if page?has_content>
+    <#if page??>
+        <h1 class="col-lg-12"><@spring.message "all.meal"/></h1>
 <@p.pager url, page/>
         <#list page.content as meal>
             <div class="col-lg-12 align-content-center">
@@ -17,19 +18,19 @@
                 </tr>
                 <tr>
                     <td>
-                        FoodName
+                        <@spring.message "food.name"/>
                     </td>
                     <td>
-                        Food Fats
+                        <@spring.message "food.fats"/>
                     </td>
                     <td>
-                        Food Carbohydrate
+                        <@spring.message "food.carbohydrates"/>
                     </td>
                     <td>
-                        Food Protein
+                        <@spring.message "food.proteins"/>
                     </td>
                     <td>
-                        Count
+                        <@spring.message "food.count"/>
                     </td>
                 </tr>
                 <#list meal.getFoodCount() as food, count>
@@ -53,7 +54,7 @@
                 </#list>
                 <tr>
                     <td>
-                        Total Calories
+                        <@spring.message "total.calories"/>
                     </td>
                     <td>
                         ${meal.getAllCalories()}
@@ -64,8 +65,6 @@
             </div>
         </#list>
 <@p.pager url, page/>
-    <#else>
-        <h1>You don`t have any meals yet</h1>
     </#if>
 
 </@w.wrapp>

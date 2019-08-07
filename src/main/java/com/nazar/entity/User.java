@@ -22,18 +22,18 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
-    @Column
+    @Column(nullable = false)
     private double weight;
-    @Column
+    @Column(nullable = false)
     private double height;
-    @Column
+    @Column(nullable = false)
     private double age;
     @Transient
     private int dailyCalories;
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Sex sex;
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LifeStyle lifeStyle;
     private boolean active;

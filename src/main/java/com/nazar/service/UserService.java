@@ -38,18 +38,16 @@ public class UserService {
     @Autowired
     private MealService mealService;
 
-    public String saveNewUser(User user, Map<String, Object> model) {
+    public void saveNewUser(User user) {
         countDailyCalories(user);
         try {
             userRepository.save(user);
         } catch (Exception e) {
             log.info("Not Unique Login - " + user.getUsername());
-            model.put("nulogin", TextConst.ISOCCUPIED);
-            return "/registration";
+            throw new RuntimeException(e);
+
         }
         log.info("Successfully registered " + user);
-        return "redirect:/userpage";
-
     }
 
     private boolean checkRegex(String exp, String regexp) {
@@ -58,7 +56,6 @@ public class UserService {
 
     public boolean checkUser(UserDTO user, Map<String, Object> model) {
         boolean check = true;
-        //TODO remove if
         if (!checkRegex(user.getUsername(), Regexes.NICKPAS)) {
             model.put("loginerr", TextConst.WRONGLOGIN);
             log.info(TextConst.WRONGLOGIN);

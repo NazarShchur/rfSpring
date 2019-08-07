@@ -29,21 +29,26 @@ public class RegistrationController {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         log.info("{}", user);
-        if (userService.checkUser(user, model)) {
-            return userService.saveNewUser(User.builder()
-                            .username(user.getUsername())
-                            .password(user.getPassword())
-                            .active(user.isActive())
-                            .roles(user.getRoles())
-                            .age(user.getAge())
-                            .height(user.getHeight())
-                            .weight(user.getWeight())
-                            .lifeStyle(user.getLifeStyle())
-                            .sex(user.getSex())
-                            .build()
-                    , model);
+        if (!userService.checkUser(user, model)) {
+            return "registration";
         } else {
-            return "/registration";
+            try {
+                userService.saveNewUser(User.builder()
+                        .username(user.getUsername())
+                        .password(user.getPassword())
+                        .active(user.isActive())
+                        .roles(user.getRoles())
+                        .age(user.getAge())
+                        .height(user.getHeight())
+                        .weight(user.getWeight())
+                        .lifeStyle(user.getLifeStyle())
+                        .sex(user.getSex())
+                        .build());
+                return "redirect:/userpage";
+            } catch (RuntimeException e) {
+                model.put("nulogin", true);
+                return "registration";
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
     <div class="myheader">
         <div class="row">
             <a href="/" class="col-lg-2 logo">Calories</a>
-            <a href="/userpage" class="col-lg-2">user</a>
+            <a href="/userpage" class="col-lg-2"><@spring.message "user.profile"/></a>
             <div class="col-lg-2 offset-4">
                 <form method="post" action="/logout">
                     <input type="hidden" name="_csrf" value="${_csrf.token}">

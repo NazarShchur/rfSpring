@@ -5,6 +5,7 @@
 <#macro wrapp>
 <html>
 <head>
+    <title>Calories</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
 </head>
@@ -16,7 +17,7 @@
     <@uh.page/>
 </#if>
 <div class="container wrapp">
-    <div class="row">
+    <div class="row text-center">
         <#nested>
     </div>
 </div>

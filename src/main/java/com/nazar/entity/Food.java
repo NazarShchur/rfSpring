@@ -16,13 +16,13 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     protected String foodName;
-    @Column
+    @Column(nullable = false)
     protected double protein;
-    @Column
+    @Column(nullable = false)
     protected double fats;
-    @Column
+    @Column(nullable = false)
     protected double carbohydrate;
 
 }

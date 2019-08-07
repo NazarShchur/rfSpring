@@ -1,7 +1,5 @@
 package com.nazar.controller;
 
-import com.nazar.dto.FoodConfirmDTO;
-import com.nazar.entity.User;
 import com.nazar.service.AdminService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
